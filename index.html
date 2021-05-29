@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TGRGBACE</title>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+    <style>
+        .wrapper{
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+	    <h1><center>TGRGBACE</center></h1>
+        <div id="player"></div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.9.3/dash.all.min.js"></script>
+
+    <script src="./ovenplayer/ovenplayer.js"></script>
+
+    <!-- for syntex highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script>
+var player = OvenPlayer.create("player", {
+    sources: [
+        {
+            type: 'webrtc', 
+            file:  "wss://flinch.tgrgbace.tv:3334/tgrgbace/stream?policy=eyJ1cmxfZXhwaXJlIjoxNjQ1MjA4MTk2MTg4fQ&signature=eUn-WOkyLF6UGQuJqyz3C1y9quU",
+            label: 'webrtc',
+	    deafult: 'true'
+        },
+        {
+            type: 'dash', 
+            file: 'https://flinch.tgrgbace.tv:8090/tgrgbace/stream/manifest_ll.mpd?policy=eyJ1cmxfZXhwaXJlIjoxNjQ1MjA4MTk2MTg4fQ&signature=45iB0jDlVYj1RIWEjn8t5ILJySs',
+            label: 'dash'
+        },
+        {
+            type: 'hls', 
+            file: 'https://flinch.tgrgbace.tv:8090/tgrgbace/stream/playlist.m3u8?policy=eyJ1cmxfZXhwaXJlIjoxNjQ1MjA4MTk2MTg4fQ&signature=DAswS-0KM7LyKzAupnmq-fx5VVY',
+            label: 'hls',
+        }
+    ]
+});
+        hljs.initHighlightingOnLoad();
+    </script>
+</body>
+</html>

@@ -16,7 +16,6 @@
 .vscode
 .cache
 .eslintcache
-package-lock.json
 
 source.js
 

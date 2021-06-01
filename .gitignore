@@ -17,3 +17,11 @@
 .cache
 .eslintcache
 package-lock.json
+
+source.js
+
+sources.js
+dist/
+*.sw*
+
+

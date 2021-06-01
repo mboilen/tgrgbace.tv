@@ -25,6 +25,7 @@
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
+    "crypto-js": "^4.0.0",
     "dashjs": "^3.2.2",
     "hls.js": "^1.0.4",
     "ovenplayer": "^0.10.0-alpha.1"

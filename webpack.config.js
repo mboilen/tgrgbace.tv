@@ -61,11 +61,14 @@ function createEncryptedSources() {
         console.log(key + ' streaming URL: ' + value);
     }
     console.log();
+    console.log('NOTE: Anyone who knows one of these URLS can broadcast to the stream. Handle with care.');
+    console.log();
     console.log();
     console.log('INFO FOR VIEWERS');
     console.log('================');
     console.log();
     console.log('Secret player URL: https://' + HOSTNAME + '/tgrgbace/index.html?key=' + sourcesKey);
+    console.log();
     console.log('NOTE: This URL contains the shared secret. Only give it to trusted viewers.');
     console.log();
     console.log('********************************');

@@ -69,6 +69,7 @@ function createEncryptedSources() {
     console.log('NOTE: This URL contains the shared secret. Only give it to trusted viewers.');
     console.log();
     console.log('********************************');
+    console.log();
 
     return encrypted;
 }

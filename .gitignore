@@ -23,4 +23,4 @@ sources.js
 dist/
 *.sw*
 
-
+.env

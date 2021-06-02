@@ -4,8 +4,8 @@
 
 1. Create a `.env` with
 ```
-HMAC=my-hmac-hash
-HOSTNAME=my-hostname
+HMAC_KEY=my-secret-hmac-key
+HOSTNAME=my-fully-qualified-domain-name
 ```
 
 2. `npm install`

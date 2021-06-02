@@ -26,11 +26,8 @@ function createEncryptedSources() {
     let viewerPolicyBase64 = base64url(Buffer.from(viewerPolicy, 'utf8'));
 
     var policies = {};
-    //makeAndLogPolicy(policies, 'webrtc', HMAC_KEY, 'ws://' + HOSTNAME + ":3333/tgrgbace/stream", viewerPolicyBase64);
     makePolicy(policies, 'webrtc', HMAC_KEY, 'wss://' + HOSTNAME + ":3334/tgrgbace/stream", viewerPolicyBase64);
-    //makeAndLogPolicy('hls', HMAC_KEY, 'http://' + HOSTNAME + ":8080/tgrgbace/stream/playlist.m3u8", viewerPolicyBase64);
     makePolicy(policies, 'hls', HMAC_KEY, 'https://' + HOSTNAME + ":8090/tgrgbace/stream/playlist.m3u8", viewerPolicyBase64);
-    //makePolicy('dash-ll', HMAC_KEY, 'http://' + HOSTNAME + ":8080/tgrgbace/stream/manifest_ll.mpd", viewerPolicyBase64);
     makePolicy(policies, 'dash-ll', HMAC_KEY, 'https://' + HOSTNAME + ":8090/tgrgbace/stream/manifest_ll.mpd", viewerPolicyBase64);
 
     var streamerPolicies = {};
@@ -54,6 +51,24 @@ function createEncryptedSources() {
     var sourcesString = JSON.stringify(sourcesObject); 
     var sourcesKey = crypto.randomBytes(16).toString('hex');
     var encrypted = CryptoJS.AES.encrypt(sourcesString, sourcesKey).toString();
+
+    console.log('********************************');
+    console.log();
+    console.log('INFO FOR STREAMERS');
+    console.log('==================');
+    console.log();
+    for (const [key, value] of Object.entries(streamerPolicies)) {
+        console.log(key + ' streaming URL: ' + value);
+    }
+    console.log();
+    console.log();
+    console.log('INFO FOR VIEWERS');
+    console.log('================');
+    console.log();
+    console.log('Secret player URL: https://' + HOSTNAME + '/tgrgbace/index.html?key=' + sourcesKey);
+    console.log('NOTE: This URL contains the shared secret. Only give it to trusted viewers.');
+    console.log();
+    console.log('********************************');
 
     return encrypted;
 }
@@ -96,5 +111,11 @@ module.exports = {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
         clean: true,
+    },
+    resolve: {
+        fallback: { 'crypto': false }  // Silence crypto polyfill warning.
+    },
+    performance: {
+        hints: false  // Silence size warnings.
     },
 };

@@ -14,6 +14,16 @@ dotenv.config();
 const HMAC_KEY = process.env.HMAC_KEY;
 const HOSTNAME = process.env.HOSTNAME;
 
+if (!HMAC_KEY) {
+    console.error('HMAC_KEY environment variable was not set');
+    process.exit(1);
+}
+
+if (!HOSTNAME) {
+    console.error('HOSTNAME environment variable was not set');
+    process.exit(1);
+}
+
 dotenv.config();
 
 

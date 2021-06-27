@@ -28,9 +28,44 @@ dotenv.config();
 
 
 function createEncryptedSources() {
-    let streamerPolicy = JSON.stringify({"url_expire": Date.now() + (60 * MS_PER_DAY) });
-    let viewerPolicy = JSON.stringify({"url_expire": Date.now() + (265 * MS_PER_DAY) });
+    var streamerPolicyExpiration, viewerPolicyExpiration;
+    if (process.env.STREAMER_EXP) {
+        streamerPolicyExpiration = parseInt(process.env.STREAMER_EXP);
+        console.log('Using streamer policy from environment');
+    } else {
+        streamerPolicyExpiration = Date.now() + (60 * MS_PER_DAY);
+        console.log('Created new streamer policy expiration');
+    }
 
+    if (process.env.VIEWER_EXP) {
+        viewerPolicyExpiration = parseInt(process.env.VIEWER_EXP);
+        console.log('Using viewer policy from environment');
+    } else {
+        viewerPolicyExpiration = Date.now() + (365 * MS_PER_DAY);
+        console.log('Created new viewer policy expiration');
+    }
+
+    var sourcesKey = process.env.SOURCES_KEY;
+    if (sourcesKey) {
+        console.log('Using sources key from environment: ' + sourcesKey);
+    } else {
+        sourcesKey = crypto.randomBytes(16).toString('hex');
+        console.log('Generating new Sources key: ' + sourcesKey);
+    }
+
+    console.log('streamer expiration: ' + new Date(streamerPolicyExpiration));
+    console.log('viewer expiration: ' + new Date(viewerPolicyExpiration));
+    console.log();
+    console.log('.env file');
+    console.log('HMAC_KEY=' + HMAC_KEY);
+    console.log('HOSTNAME=' + HOSTNAME);
+    console.log('STREAMER_EXP=' + streamerPolicyExpiration);
+    console.log('VIEWER_EXP=' + viewerPolicyExpiration);
+    console.log('SOURCES_KEY=' + sourcesKey);
+    console.log();
+
+    let streamerPolicy = JSON.stringify({"url_expire": streamerPolicyExpiration });
+    let viewerPolicy = JSON.stringify({"url_expire": viewerPolicyExpiration });
 
     let streamerPolicyBase64 = base64url(Buffer.from(streamerPolicy, 'utf8'));
     let viewerPolicyBase64 = base64url(Buffer.from(viewerPolicy, 'utf8'));
@@ -59,7 +94,6 @@ function createEncryptedSources() {
     });
 
     var sourcesString = JSON.stringify(sourcesObject); 
-    var sourcesKey = crypto.randomBytes(16).toString('hex');
     var encrypted = CryptoJS.AES.encrypt(sourcesString, sourcesKey).toString();
 
     console.log('********************************');
